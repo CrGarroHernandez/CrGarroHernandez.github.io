@@ -60,31 +60,38 @@
             </p>
 
             <hr class="w3-opacity">
-            
-            <input class="w3-input w3-animate-input" type="text" style="width:30%">
+
 
             <div class="w3-row-padding">
+                <div class="w3-half">
+                  <label>Precio Depto</label>
+                  <input class="w3-input w3-border" type="number" id="precio" placeholder="1234">
+                </div>
+                <div class="w3-half">
+                  <label>Valor UF</label>
+                  <input class="w3-input w3-border" type="number" id="uf" disabled>
+                </div>
+                <!-- <button class="w3-btn w3-blue">Calcular</button> -->
+              </div>
+
+              <div class="w3-row-padding w3-padding-16">
                 <div class="w3-third">
-                  <label>First Name</label>
-                  <input class="w3-input w3-border" type="text" placeholder="Two">
+                    <label>Valor Total</label>
+                  <input class="w3-input w3-border" type="text" id="total" disabled>
                 </div>
                 <div class="w3-third">
-                  <label>Last Name</label>
-                  <input class="w3-input w3-border" type="text" placeholder="Three">
+                    <label>Valor Pie (20%)</label>
+                  <input class="w3-input w3-border" type="text" id="pie" disabled>
+                </div>
+                <div class="w3-third">
+                    <label>Valor Crédito (5%)</label>
+                  <input class="w3-input w3-border" type="text" id="credito" disabled>
                 </div>
               </div>
 
+                
+                <button class="w3-btn w3-block w3-black" onclick="getValues()">Calcular</button>
 
-                <input id="valor-in" type="number">
-                <input id="input2" type="text">
-                <button onclick="getValues()">Calcular</button>
-
-
-                <div class="w3-responsive">
-                    <table class="w3-table-all">
-                      ... table content ...
-                    </table>
-                  </div>
 
             <hr class="w3-opacity">
             <h4 class="w3-padding-16">Habilidades Técnicas</h4>
@@ -239,18 +246,29 @@
 
     function getValues(){
         // Valor a calcular
-        var valorIn = document.getElementById("valor-in").value;
+        var precio = document.getElementById("precio").value;
         
 
         fetch('https://mindicador.cl/api')
             .then((response) => response.json())
             .then((data) => {
                 let uf = data.uf;
-                let valor = uf.valor;
-                let total = valor * text;
+                let valorUf = uf.valor;
+                let total = valorUf * precio;
+                
+                let pie = (Math.round(total) * 0.2);
+                let credito = pie * 0.05;
 
-                total = formatNumber(total, 2);
-                document.getElementById("input2").value = total;
+                total = formatNumber(total);
+                pie = formatNumber(pie);
+                credito = formatNumber(credito);
+
+                document.getElementById("uf").value = valorUf;
+
+                document.getElementById("total").value = total;
+                document.getElementById("pie").value = pie;
+                document.getElementById("credito").value = credito;
+
             });
     }
 
