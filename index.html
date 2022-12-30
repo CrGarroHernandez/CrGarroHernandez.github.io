@@ -60,7 +60,8 @@
             </p>
 
             <hr class="w3-opacity">
-                            <input type="text">
+                <input id="input" type="text">
+                <button onclick="onClickButton()">adasd</button>
             <hr class="w3-opacity">
             <h4 class="w3-padding-16">Habilidades Técnicas</h4>
             <p class="w3-wide">Paint</p>
@@ -193,6 +194,15 @@
         document.getElementById("modal01").style.display = "block";
         var captionText = document.getElementById("caption");
         captionText.innerHTML = element.alt;
+    }
+
+    function onClickButton(){
+        var text = document.getElementById("input").value;
+        // alert(text);
+
+        fetch('https://mindicador.cl/api')
+            .then((response) => response.json())
+            .then((data) => alert(JSON.stringify(data)));
     }
 
 </script>
