@@ -60,8 +60,32 @@
             </p>
 
             <hr class="w3-opacity">
-                <input id="input" type="text">
-                <button onclick="onClickButton()">adasd</button>
+            
+            <input class="w3-input w3-animate-input" type="text" style="width:30%">
+
+            <div class="w3-row-padding">
+                <div class="w3-third">
+                  <label>First Name</label>
+                  <input class="w3-input w3-border" type="text" placeholder="Two">
+                </div>
+                <div class="w3-third">
+                  <label>Last Name</label>
+                  <input class="w3-input w3-border" type="text" placeholder="Three">
+                </div>
+              </div>
+
+
+                <input id="valor-in" type="number">
+                <input id="input2" type="text">
+                <button onclick="getValues()">Calcular</button>
+
+
+                <div class="w3-responsive">
+                    <table class="w3-table-all">
+                      ... table content ...
+                    </table>
+                  </div>
+
             <hr class="w3-opacity">
             <h4 class="w3-padding-16">Habilidades Técnicas</h4>
             <p class="w3-wide">Paint</p>
@@ -196,14 +220,41 @@
         captionText.innerHTML = element.alt;
     }
 
-    function onClickButton(){
-        var text = document.getElementById("input").value;
-        // alert(text);
+    function formatNumber(floatValue = 0, decimals = 0, multiplier = 1) {
+        let floatMultiplied = floatValue * multiplier;
+        let stringFloat = floatMultiplied + "";
+        let arraySplitFloat = stringFloat.split(".");
+        let decimalsValue = "0";
+        if (arraySplitFloat.length > 1) {
+            decimalsValue = arraySplitFloat[1].slice(0, decimals);
+        }
+        let integerValue = arraySplitFloat[0];
+        let arrayFullStringValue = [integerValue, decimalsValue];
+        let FullStringValue = arrayFullStringValue.join(".")
+        let floatFullValue = parseFloat(FullStringValue) + "";
+        let formatFloatFullValue = new Intl.NumberFormat('es-ES', { minimumFractionDigits: decimals }).format(floatFullValue);
+        return formatFloatFullValue;
+
+    }
+
+    function getValues(){
+        // Valor a calcular
+        var valorIn = document.getElementById("valor-in").value;
+        
 
         fetch('https://mindicador.cl/api')
             .then((response) => response.json())
-            .then((data) => alert(JSON.stringify(data)));
+            .then((data) => {
+                let uf = data.uf;
+                let valor = uf.valor;
+                let total = valor * text;
+
+                total = formatNumber(total, 2);
+                document.getElementById("input2").value = total;
+            });
     }
+
+
 
 </script>
 
